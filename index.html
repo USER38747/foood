@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>مطعم لافييستا — La Fiesta</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
+:root{
+  --coal:   #0e0d0b;
+  --coal2:  #1c1a16;
+  --coal3:  #2e2b24;
+  --amber:  #d4802a;
+  --amber-lt:#f0a84a;
+  --amber-pale:#fdf3e6;
+  --cream:  #f5f0e8;
+  --cream2: #ede6d8;
+  --white:  #ffffff;
+  --ink:    #1a1714;
+  --ink2:   #48433c;
+  --ink3:   #8a8278;
+  --red:    #c0392b;
+  --green:  #27704a;
+  --border: rgba(26,23,20,.1);
+  --shadow: 0 4px 24px rgba(14,13,11,.1);
+  --shadow-lg:0 12px 48px rgba(14,13,11,.18);
+  --r:14px;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:'Tajawal',sans-serif;overflow-x:hidden;
+}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--cream2);}
+::-webkit-scrollbar-thumb{background:var(--amber);border-radius:3px;}
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+nav{
+  position:fixed;top:0;width:100%;z-index:600;
+  padding:0 32px;
+  background:rgba(14,13,11,0);
+  transition:background .4s,padding .4s;
+}
+nav.scrolled{
+  background:rgba(14,13,11,.96);
+  backdrop-filter:blur(20px);
+  padding:0 32px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.nav-inner{
+  max-width:1280px;margin:0 auto;
+  display:flex;align-items:center;height:70px;gap:20px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;flex-shrink:0;
+}
+.nav-logo-icon{
+  width:38px;height:38px;border-radius:9px;
+  background:linear-gradient(135deg,var(--amber),var(--amber-lt));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;
+}
+.nav-logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;color:var(--white);letter-spacing:.3px;
+}
+.nav-logo-text span{color:var(--amber-lt);}
+.nav-links{
+  display:flex;gap:2px;margin-right:auto;
+}
+.nav-links a{
+  padding:8px 16px;border-radius:8px;color:rgba(255,255,255,.6);
+  text-decoration:none;font-size:.85rem;font-weight:500;
+  transition:all .25s;
+}
+.nav-links a:hover{color:var(--white);background:rgba(255,255,255,.07);}
+.nav-cart-btn{
+  position:relative;display:flex;align-items:center;gap:7px;
+  padding:10px 20px;border-radius:9px;
+  background:var(--amber);color:var(--white);border:none;
+  cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:700;
+  transition:all .3s var(--ease);
+}
+.nav-cart-btn:hover{background:var(--amber-lt);transform:translateY(-1px);}
+.cart-badge{
+  position:absolute;top:-7px;left:-7px;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--red);color:var(--white);
+  font-size:.65rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s var(--ease);
+}
+.cart-badge.pop{animation:badgePop .3s var(--ease);}
+@keyframes badgePop{0%{transform:scale(1)}50%{transform:scale(1.45)}100%{transform:scale(1)}}
+.ham-btn{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;cursor:pointer;padding:6px;
+}
+.ham-btn span{width:22px;height:1.5px;background:var(--white);border-radius:2px;transition:.3s;}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  background:var(--coal);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;text-align:center;padding:100px 24px 60px;
+}
+/* Warm radial glow */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 100%,rgba(212,128,42,.22),transparent),
+    radial-gradient(ellipse 40% 50% at 20% 30%,rgba(212,128,42,.1),transparent);
+}
+/* Animated grain */
+.hero-grain{
+  position:absolute;inset:0;opacity:.04;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;pointer-events:none;
+}
+/* Floating food emojis */
+.floater{
+  position:absolute;font-size:2rem;opacity:.06;
+  animation:floatY 8s ease-in-out infinite;pointer-events:none;
+}
+.floater:nth-child(1){top:15%;right:8%;animation-delay:0s;}
+.floater:nth-child(2){top:60%;right:5%;animation-delay:2s;font-size:1.6rem;}
+.floater:nth-child(3){top:25%;left:6%;animation-delay:4s;font-size:1.4rem;}
+.floater:nth-child(4){bottom:20%;left:10%;animation-delay:1s;}
+@keyframes floatY{
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-20px) rotate(6deg);}
+}
+.hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:.68rem;letter-spacing:3px;text-transform:uppercase;
+  color:var(--amber-lt);margin-bottom:1.4rem;
+  padding:6px 16px;border:1px solid rgba(212,128,42,.3);border-radius:20px;
+}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.6rem,7vw,5.2rem);
+  color:var(--white);line-height:1.1;
+  margin-bottom:1.1rem;
+}
+.hero-title em{
+  font-style:italic;
+  background:linear-gradient(90deg,var(--amber),var(--amber-lt));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:1.05rem;color:rgba(255,255,255,.45);
+  margin-bottom:2.5rem;line-height:1.75;
+}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-primary{
+  padding:14px 36px;border-radius:9px;border:none;
+  background:linear-gradient(135deg,var(--amber),var(--amber-lt));
+  color:var(--coal);font-family:'Tajawal',sans-serif;
+  font-size:.95rem;font-weight:700;cursor:pointer;
+  transition:all .35s var(--ease);position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.btn-primary:hover::after{transform:translateX(100%);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(212,128,42,.45);}
+.btn-outline{
+  padding:14px 36px;border-radius:9px;
+  border:1.5px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.8);background:transparent;
+  font-family:'Tajawal',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;
+  transition:all .3s;
+}
+.btn-outline:hover{border-color:var(--amber);color:var(--amber-lt);}
+
+/* Hero stats */
+.hero-stats{
+  display:flex;gap:32px;justify-content:center;flex-wrap:wrap;
+  margin-top:3rem;padding-top:2rem;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+.h-stat strong{font-size:1.5rem;font-weight:900;color:var(--amber-lt);}
+.h-stat small{display:block;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);}
+
+/* Scroll arrow */
+.scroll-hint{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.25);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  animation:bounce 2s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ═══════════════════════════════════════════════
+   SECTION COMMONS
+═══════════════════════════════════════════════ */
+section{padding:90px 24px;}
+.section-max{max-width:1280px;margin:0 auto;}
+.section-label{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.65rem;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--amber);margin-bottom:.9rem;
+}
+.section-label::before,.section-label::after{content:'';width:16px;height:1px;background:var(--amber);}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,4vw,3rem);
+  line-height:1.2;margin-bottom:1rem;color:var(--ink);
+}
+.section-title em{font-style:italic;color:var(--amber);}
+.section-sub{font-size:.92rem;color:var(--ink3);line-height:1.8;max-width:480px;}
+
+/* ═══════════════════════════════════════════════
+   FEATURES STRIP
+═══════════════════════════════════════════════ */
+.features-strip{
+  background:var(--coal2);padding:28px 24px;
+}
+.features-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:rgba(255,255,255,.05);border-radius:var(--r);overflow:hidden;
+}
+.feat-item{
+  padding:22px 24px;background:var(--coal2);
+  display:flex;align-items:center;gap:14px;
+}
+.feat-icon{
+  width:44px;height:44px;border-radius:10px;flex-shrink:0;
+  background:rgba(212,128,42,.15);border:1px solid rgba(212,128,42,.2);
+  display:flex;align-items:center;justify-content:center;font-size:1.2rem;
+}
+.feat-text strong{display:block;font-size:.88rem;font-weight:700;color:var(--white);}
+.feat-text small{font-size:.72rem;color:rgba(255,255,255,.4);}
+
+/* ═══════════════════════════════════════════════
+   MENU SECTION
+═══════════════════════════════════════════════ */
+#menu{background:var(--cream);}
+.menu-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:36px;flex-wrap:wrap;gap:20px;
+}
+/* Category tabs */
+.cat-tabs{
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+.cat-tab{
+  padding:9px 20px;border-radius:20px;
+  border:1.5px solid var(--border);background:var(--white);
+  cursor:pointer;font-family:'Tajawal',sans-serif;
+  font-size:.82rem;font-weight:500;color:var(--ink2);
+  transition:all .25s;white-space:nowrap;
+}
+.cat-tab:hover{border-color:var(--amber);color:var(--amber);}
+.cat-tab.active{background:var(--amber);border-color:var(--amber);color:var(--white);}
+
+/* Search */
+.menu-search{
+  display:flex;align-items:center;
+  background:var(--white);border:1.5px solid var(--border);
+  border-radius:9px;overflow:hidden;
+  transition:border-color .25s,box-shadow .25s;
+}
+.menu-search:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px rgba(212,128,42,.12);}
+.menu-search input{
+  padding:10px 14px;background:none;border:none;outline:none;
+  font-family:'Tajawal',sans-serif;font-size:.88rem;color:var(--ink);
+  min-width:200px;
+}
+.menu-search button{
+  padding:10px 14px;background:none;border:none;cursor:pointer;
+  color:var(--ink3);font-size:1rem;transition:color .2s;
+}
+.menu-search button:hover{color:var(--amber);}
+
+/* Menu grid */
+.menu-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+/* Item card */
+.item-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .35s var(--ease);
+  animation:fadeUp .4s var(--ease) both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.item-card:hover{
+  box-shadow:var(--shadow-lg);transform:translateY(-5px);
+  border-color:rgba(212,128,42,.25);
+}
+.item-img{
+  position:relative;height:190px;overflow:hidden;
+  background:var(--cream2);
+}
+.item-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .55s var(--ease);
+}
+.item-card:hover .item-img img{transform:scale(1.07);}
+.item-badge{
+  position:absolute;top:10px;right:10px;
+  padding:3px 10px;border-radius:5px;
+  font-size:.62rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+}
+.badge-hot{background:rgba(192,57,43,.85);color:#fff;}
+.badge-new{background:rgba(39,112,74,.85);color:#fff;}
+.badge-pop{background:rgba(212,128,42,.9);color:#fff;}
+.item-fav{
+  position:absolute;top:8px;left:10px;
+  background:rgba(255,255,255,.88);border:none;cursor:pointer;
+  width:30px;height:30px;border-radius:50%;font-size:.95rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;backdrop-filter:blur(4px);
+}
+.item-fav:hover{transform:scale(1.15);background:var(--white);}
+.item-fav.faved{color:var(--red);}
+.item-body{padding:16px;flex:1;display:flex;flex-direction:column;}
+.item-cat-tag{
+  font-size:.6rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--amber);margin-bottom:5px;
+}
+.item-name{font-size:.98rem;font-weight:700;margin-bottom:5px;line-height:1.3;}
+.item-desc{font-size:.75rem;color:var(--ink3);line-height:1.7;flex:1;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.item-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--border);
+}
+.item-price{font-size:1.05rem;font-weight:900;color:var(--amber);}
+.item-price small{font-size:.65rem;color:var(--ink3);font-weight:400;}
+.add-btn{
+  width:34px;height:34px;border-radius:50%;border:none;
+  background:var(--amber);color:var(--white);cursor:pointer;
+  font-size:1.3rem;display:flex;align-items:center;justify-content:center;
+  transition:all .3s var(--ease);line-height:1;
+}
+.add-btn:hover{background:var(--coal);transform:scale(1.12) rotate(90deg);}
+.add-btn.added{background:var(--green);animation:addPop .35s var(--ease);}
+@keyframes addPop{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+/* ═══════════════════════════════════════════════
+   CART DRAWER
+═══════════════════════════════════════════════ */
+.cart-overlay{
+  position:fixed;inset:0;background:rgba(14,13,11,.55);
+  z-index:700;opacity:0;visibility:hidden;
+  transition:all .35s var(--ease);
+}
+.cart-overlay.open{opacity:1;visibility:visible;}
+.cart-drawer{
+  position:fixed;left:0;top:0;bottom:0;width:100%;max-width:440px;
+  background:var(--white);z-index:800;
+  transform:translateX(-110%);transition:transform .4s var(--ease);
+  display:flex;flex-direction:column;
+  box-shadow:var(--shadow-lg);
+}
+.cart-overlay.open .cart-drawer{transform:translateX(0);}
+.cart-head{
+  padding:20px 22px;
+  background:var(--coal);color:var(--white);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cart-head h2{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px;}
+.cart-close{
+  background:rgba(255,255,255,.1);border:none;color:var(--white);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.cart-close:hover{background:rgba(255,255,255,.2);}
+.cart-items{flex:1;overflow-y:auto;padding:16px;}
+.cart-items::-webkit-scrollbar{width:3px;}
+.cart-empty{
+  text-align:center;padding:50px 20px;color:var(--ink3);
+}
+.cart-empty-icon{font-size:3rem;margin-bottom:12px;}
+.cart-item{
+  display:flex;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1px solid var(--border);
+  animation:fadeUp .3s var(--ease);
+}
+.cart-item-img{
+  width:58px;height:58px;border-radius:9px;object-fit:cover;flex-shrink:0;
+  background:var(--cream2);
+}
+.cart-item-info{flex:1;min-width:0;}
+.cart-item-name{font-size:.85rem;font-weight:700;margin-bottom:3px;}
+.cart-item-price{font-size:.78rem;color:var(--amber);font-weight:700;}
+.cart-qty{
+  display:flex;align-items:center;gap:8px;
+}
+.qty-btn{
+  width:26px;height:26px;border-radius:6px;border:1.5px solid var(--border);
+  background:var(--white);cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;line-height:1;color:var(--ink2);
+}
+.qty-btn:hover{border-color:var(--amber);color:var(--amber);}
+.qty-val{font-size:.88rem;font-weight:700;min-width:20px;text-align:center;}
+.cart-footer{
+  padding:18px 22px;
+  border-top:1px solid var(--border);background:var(--cream);
+}
+.cart-subtotal{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:6px;font-size:.85rem;color:var(--ink2);
+}
+.cart-total{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:16px;
+}
+.cart-total span:first-child{font-size:1rem;font-weight:700;}
+.cart-total span:last-child{font-size:1.3rem;font-weight:900;color:var(--amber);}
+.checkout-btn{
+  width:100%;padding:14px;border:none;border-radius:9px;
+  background:linear-gradient(135deg,var(--amber),var(--amber-lt));
+  color:var(--coal);font-family:'Tajawal',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:all .3s var(--ease);
+}
+.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,128,42,.4);}
+.checkout-btn:disabled{background:var(--cream2);color:var(--ink3);transform:none;box-shadow:none;cursor:not-allowed;}
+
+/* ═══════════════════════════════════════════════
+   CHECKOUT MODAL
+═══════════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(14,13,11,.6);
+  z-index:900;display:flex;align-items:flex-start;justify-content:center;
+  padding:20px;overflow-y:auto;
+  opacity:0;visibility:hidden;transition:all .35s var(--ease);
+}
+.modal-overlay.open{opacity:1;visibility:visible;}
+.modal-box{
+  background:var(--white);border-radius:20px;
+  width:100%;max-width:540px;margin:auto;
+  transform:scale(.93) translateY(20px);
+  transition:transform .35s var(--ease);overflow:hidden;
+}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
+.modal-head{
+  padding:22px 26px;background:var(--coal);color:var(--white);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-head h2{font-size:1.05rem;font-weight:700;}
+.modal-close{
+  background:rgba(255,255,255,.1);border:none;color:var(--white);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;
+  font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.2);}
+.modal-body{padding:26px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{margin-bottom:16px;}
+.form-group label{
+  display:block;font-size:.75rem;font-weight:600;
+  color:var(--ink2);margin-bottom:6px;letter-spacing:.3px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;padding:11px 14px;
+  border:1.5px solid var(--border);border-radius:9px;
+  background:var(--cream);font-family:'Tajawal',sans-serif;
+  font-size:.88rem;color:var(--ink);outline:none;
+  transition:border-color .25s,box-shadow .25s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--amber);
+  box-shadow:0 0 0 3px rgba(212,128,42,.1);
+}
+.form-group textarea{resize:vertical;min-height:80px;}
+/* Delivery type toggle */
+.delivery-toggle{display:flex;gap:8px;margin-bottom:18px;}
+.del-opt{
+  flex:1;padding:11px;border:1.5px solid var(--border);
+  border-radius:9px;cursor:pointer;text-align:center;
+  font-size:.82rem;font-weight:600;color:var(--ink2);
+  transition:all .25s;
+}
+.del-opt:hover{border-color:var(--amber);color:var(--amber);}
+.del-opt.active{background:var(--amber-pale);border-color:var(--amber);color:var(--amber);}
+.del-opt .del-icon{font-size:1.3rem;display:block;margin-bottom:4px;}
+/* Payment methods */
+.pay-methods{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.pay-opt{
+  padding:11px;border:1.5px solid var(--border);border-radius:9px;
+  cursor:pointer;display:flex;align-items:center;gap:9px;
+  font-size:.82rem;font-weight:500;color:var(--ink2);
+  transition:all .25s;
+}
+.pay-opt:hover{border-color:var(--amber);}
+.pay-opt.active{background:var(--amber-pale);border-color:var(--amber);color:var(--amber);}
+.pay-opt .pay-icon{font-size:1.2rem;}
+/* Order summary mini */
+.order-mini{
+  background:var(--cream);border-radius:10px;
+  padding:14px;margin-bottom:16px;
+}
+.order-mini-row{
+  display:flex;justify-content:space-between;
+  font-size:.8rem;color:var(--ink2);padding:4px 0;
+}
+.order-mini-total{
+  display:flex;justify-content:space-between;
+  font-size:.95rem;font-weight:900;
+  padding-top:8px;border-top:1px solid var(--border);margin-top:4px;
+}
+.order-mini-total span:last-child{color:var(--amber);}
+.place-btn{
+  width:100%;padding:14px;border:none;border-radius:9px;
+  background:linear-gradient(135deg,var(--amber),var(--amber-lt));
+  color:var(--coal);font-family:'Tajawal',sans-serif;
+  font-size:1.05rem;font-weight:700;cursor:pointer;
+  transition:all .35s var(--ease);
+}
+.place-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(212,128,42,.45);}
+
+/* ═══════════════════════════════════════════════
+   TRACKING SECTION
+═══════════════════════════════════════════════ */
+#tracking{background:var(--coal2);}
+.track-inner{max-width:780px;margin:0 auto;text-align:center;}
+.track-input-row{
+  display:flex;gap:10px;margin-bottom:40px;justify-content:center;
+  flex-wrap:wrap;
+}
+.track-input{
+  flex:1;max-width:320px;
+  padding:13px 18px;border:1.5px solid rgba(255,255,255,.12);
+  border-radius:9px;background:rgba(255,255,255,.06);
+  color:var(--white);font-family:'Tajawal',sans-serif;font-size:.9rem;outline:none;
+  transition:border-color .25s;
+}
+.track-input::placeholder{color:rgba(255,255,255,.3);}
+.track-input:focus{border-color:var(--amber);}
+.track-btn{
+  padding:13px 28px;border:none;border-radius:9px;
+  background:var(--amber);color:var(--coal);
+  font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:700;
+  cursor:pointer;transition:all .3s;white-space:nowrap;
+}
+.track-btn:hover{background:var(--amber-lt);}
+
+/* Order card */
+.order-card{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+  border-radius:var(--r);padding:24px;text-align:right;
+  display:none;
+}
+.order-card.show{display:block;animation:fadeUp .4s var(--ease);}
+.order-card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:10px;
+}
+.order-id{
+  font-family:'DM Mono',monospace;font-size:.9rem;
+  color:var(--amber-lt);letter-spacing:1px;
+}
+.order-status-badge{
+  padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:700;
+}
+.status-waiting  {background:rgba(212,128,42,.2);color:var(--amber-lt);}
+.status-preparing{background:rgba(39,112,74,.2);color:#5dc48a;}
+.status-delivery {background:rgba(58,122,189,.2);color:#7eb3e8;}
+.status-done     {background:rgba(39,112,74,.3);color:#5dc48a;}
+.status-cancelled{background:rgba(192,57,43,.2);color:#e88a82;}
+
+/* Progress stepper */
+.order-steps{
+  display:flex;align-items:center;gap:0;margin:22px 0;
+}
+.step{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;position:relative;
+}
+.step::before{
+  content:'';position:absolute;top:18px;
+  right:50%;width:100%;height:2px;
+  background:rgba(255,255,255,.1);z-index:0;
+}
+.step:first-child::before{display:none;}
+.step-dot{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;z-index:1;transition:all .4s var(--ease);
+}
+.step.done .step-dot{
+  background:var(--amber);border-color:var(--amber);
+  box-shadow:0 0 16px rgba(212,128,42,.5);
+}
+.step.done::before{background:var(--amber);}
+.step-label{font-size:.68rem;color:rgba(255,255,255,.4);margin-top:8px;text-align:center;}
+.step.done .step-label{color:var(--amber-lt);}
+
+/* Order items list in tracker */
+.tracked-items{
+  display:flex;flex-direction:column;gap:8px;margin-top:16px;
+  border-top:1px solid rgba(255,255,255,.07);padding-top:14px;
+}
+.tracked-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:.82rem;color:rgba(255,255,255,.65);
+}
+.tracked-item img{width:36px;height:36px;border-radius:6px;object-fit:cover;}
+.tracked-item span{margin-right:auto;font-weight:600;color:var(--amber-lt);}
+
+/* ═══════════════════════════════════════════════
+   ABOUT SECTION
+═══════════════════════════════════════════════ */
+#about{background:var(--white);}
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;
+  align-items:center;
+}
+.about-img-wrap{
+  position:relative;border-radius:20px;overflow:hidden;height:420px;
+}
+.about-img-wrap img{width:100%;height:100%;object-fit:cover;}
+.about-img-badge{
+  position:absolute;bottom:20px;right:20px;
+  background:rgba(14,13,11,.85);color:var(--white);
+  padding:12px 18px;border-radius:10px;
+  border:1px solid rgba(212,128,42,.3);
+  backdrop-filter:blur(8px);text-align:center;
+}
+.about-img-badge strong{display:block;font-size:1.3rem;font-weight:900;color:var(--amber-lt);}
+.about-img-badge span{font-size:.7rem;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
+.about-text{padding-right:10px;}
+.about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;}
+.about-tag{
+  padding:6px 14px;border-radius:6px;
+  background:var(--amber-pale);color:var(--amber);
+  font-size:.75rem;font-weight:600;
+}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{
+  background:var(--coal);color:rgba(255,255,255,.55);
+  padding:48px 24px 28px;
+}
+.footer-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;
+  margin-bottom:36px;
+}
+.footer-brand .nav-logo-text{font-size:1.4rem;}
+.footer-desc{font-size:.82rem;line-height:1.8;margin-top:10px;margin-bottom:16px;}
+.footer-socials{display:flex;gap:10px;}
+.soc-btn{
+  width:36px;height:36px;border-radius:8px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;
+}
+.soc-btn:hover{background:var(--amber);color:var(--coal);}
+.footer-col h4{
+  font-size:.72rem;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.3);margin-bottom:14px;
+}
+.footer-col a{
+  display:block;font-size:.82rem;color:rgba(255,255,255,.5);
+  text-decoration:none;padding:3px 0;transition:color .2s;cursor:pointer;
+}
+.footer-col a:hover{color:var(--amber-lt);}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:22px;border-top:1px solid rgba(255,255,255,.06);
+  font-size:.72rem;flex-wrap:wrap;gap:8px;
+}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+.toasts{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:1100;display:flex;flex-direction:column;gap:8px;
+  align-items:center;pointer-events:none;
+}
+.toast{
+  background:var(--coal);color:var(--white);
+  padding:11px 20px;border-radius:9px;
+  font-size:.82rem;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+  animation:toastIn .3s var(--ease);
+  box-shadow:var(--shadow-lg);pointer-events:all;
+  border-right:3px solid var(--amber);
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════════ */
+.mob-nav{
+  display:none;position:fixed;inset:0;
+  background:rgba(14,13,11,.98);backdrop-filter:blur(20px);
+  z-index:700;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+}
+.mob-nav.open{display:flex;}
+.mob-nav a{
+  font-family:'Playfair Display',serif;font-size:2rem;
+  color:rgba(255,255,255,.7);text-decoration:none;transition:color .2s;
+}
+.mob-nav a:hover{color:var(--amber-lt);}
+.mob-nav-close{
+  position:absolute;top:22px;left:22px;
+  background:rgba(255,255,255,.08);border:none;color:var(--white);
+  width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ═══════════════════════════════════════════════
+   SUCCESS SCREEN
+═══════════════════════════════════════════════ */
+.success-screen{
+  display:none;text-align:center;padding:40px 20px;
+}
+.success-screen.show{display:block;}
+.success-icon{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 18px;
+  background:rgba(39,112,74,.15);border:2px solid rgba(39,112,74,.5);
+  display:flex;align-items:center;justify-content:center;font-size:2.4rem;
+  animation:successPop .5s var(--ease);
+}
+@keyframes successPop{0%{transform:scale(0)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+.success-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--ink);margin-bottom:8px;}
+.success-sub{font-size:.88rem;color:var(--ink3);line-height:1.7;margin-bottom:20px;}
+.order-number{
+  background:var(--coal);color:var(--amber-lt);
+  border-radius:9px;padding:12px 20px;
+  font-family:'DM Mono',monospace;font-size:1.1rem;
+  font-weight:700;letter-spacing:2px;margin-bottom:20px;
+  display:inline-block;
+}
+.success-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.success-btn{
+  padding:11px 24px;border-radius:8px;border:none;cursor:pointer;
+  font-family:'Tajawal',sans-serif;font-size:.88rem;font-weight:700;
+  transition:all .3s;
+}
+.success-btn.track{background:var(--coal);color:var(--white);}
+.success-btn.track:hover{background:var(--amber);}
+.success-btn.more{background:var(--amber-pale);color:var(--amber);}
+.success-btn.more:hover{background:var(--amber);color:var(--white);}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media(max-width:960px){
+  .about-grid{grid-template-columns:1fr;gap:30px;}
+  .about-text{padding-right:0;}
+  .features-inner{grid-template-columns:1fr 1fr;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:720px){
+  .nav-links,.nav-cart-btn{display:none;}
+  .ham-btn{display:flex;}
+  .nav-cart-btn-mobile{display:flex!important;}
+  .features-inner{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr;}
+  .hero-stats{gap:20px;}
+  .order-steps{gap:0;}
+  .step-label{font-size:.58rem;}
+}
+@media(max-width:480px){
+  nav{padding:0 16px;}
+  section{padding:60px 16px;}
+  .cat-tabs{gap:5px;}
+  .form-row{grid-template-columns:1fr;}
+  .about-img-wrap{height:280px;}
+}
+.nav-cart-btn-mobile{
+  display:none;position:relative;
+  background:none;border:none;color:var(--white);
+  font-size:1.4rem;cursor:pointer;padding:4px 8px;
+}
+</style>
+</head>
+<body>
+
+<!-- TOASTS -->
+<div class="toasts" id="toasts"></div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-nav-close" onclick="closeMobNav()">✕</button>
+  <a href="#home" onclick="closeMobNav()">الرئيسية</a>
+  <a href="#menu" onclick="closeMobNav()">القائمة</a>
+  <a href="#tracking" onclick="closeMobNav()">تتبع طلبك</a>
+  <a href="#about" onclick="closeMobNav()">عنّا</a>
+</div>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="if(event.target===this)closeCart()">
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-head">
+      <h2>🛒 سلة الطلبات <span id="cartCountHead" style="background:var(--amber);padding:2px 8px;border-radius:12px;font-size:.75rem;margin-right:4px;">0</span></h2>
+      <button class="cart-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🍽️</div>
+        <p>سلتك فارغة<br>أضف وجبات من القائمة</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-subtotal">
+        <span>المجموع الفرعي</span><span id="cartSubtotal">0 دج</span>
+      </div>
+      <div class="cart-subtotal">
+        <span>رسوم التوصيل</span><span>200 دج</span>
+      </div>
+      <div class="cart-total">
+        <span>الإجمالي</span><span id="cartTotal">0 دج</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>
+        اتمام الطلب →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2>🧾 تأكيد الطلب</h2>
+      <button class="modal-close" onclick="closeCheckout()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Success screen (hidden until submit) -->
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">✅</div>
+        <div class="success-title">تم استقبال طلبك!</div>
+        <div class="success-sub">سيصلك طلبك خلال 30-45 دقيقة.<br>يمكنك متابعة حالة الطلب في أي وقت.</div>
+        <div class="order-number" id="successOrderNum">LF-000000</div>
+        <div class="success-btns">
+          <button class="success-btn track" onclick="goTrack()">📍 تتبع الطلب</button>
+          <button class="success-btn more" onclick="closeCheckout()">🍽️ طلب المزيد</button>
+        </div>
+      </div>
+
+      <!-- Form (hidden after submit) -->
+      <div id="checkoutForm">
+        <!-- Delivery type -->
+        <div class="delivery-toggle">
+          <div class="del-opt active" id="delDelivery" onclick="setDelivery('delivery')">
+            <span class="del-icon">🛵</span>توصيل للمنزل
+          </div>
+          <div class="del-opt" id="delPickup" onclick="setDelivery('pickup')">
+            <span class="del-icon">🏠</span>استلام بالمطعم
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>الاسم الكامل *</label>
+            <input type="text" id="cName" placeholder="أحمد بن عمر"/>
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف *</label>
+            <input type="tel" id="cPhone" placeholder="0555 123 456"/>
+          </div>
+        </div>
+
+        <div class="form-group" id="addressGroup">
+          <label>العنوان *</label>
+          <input type="text" id="cAddress" placeholder="الشارع، الحي، المدينة"/>
+        </div>
+
+        <div class="form-group">
+          <label>ملاحظات للطاهي</label>
+          <textarea id="cNotes" placeholder="حساسية، درجة حرارة، طلبات خاصة..."></textarea>
+        </div>
+
+        <!-- Payment -->
+        <label style="font-size:.75rem;font-weight:600;color:var(--ink2);display:block;margin-bottom:10px;">طريقة الدفع</label>
+        <div class="pay-methods">
+          <div class="pay-opt active" onclick="setPay(this)"><span class="pay-icon">💵</span>نقداً عند التسليم</div>
+          <div class="pay-opt" onclick="setPay(this)"><span class="pay-icon">💳</span>بطاقة بنكية</div>
+        </div>
+
+        <!-- Mini summary -->
+        <div class="order-mini" id="orderMini"></div>
+
+        <button class="place-btn" onclick="placeOrder()">✅ تأكيد الطلب</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════ NAV ═════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <div class="nav-logo-icon">🍽</div>
+      <div class="nav-logo-text">لا فيستا<span>.</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#home">الرئيسية</a>
+      <a href="#menu">القائمة</a>
+      <a href="#tracking">تتبع طلبك</a>
+      <a href="#about">عنّا</a>
+    </div>
+    <button class="nav-cart-btn" onclick="openCart()">
+      🛒 السلة
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <button class="nav-cart-btn-mobile" onclick="openCart()">
+      🛒<span class="cart-badge" id="cartBadgeMobile" style="position:static;margin-right:2px;display:inline-flex;">0</span>
+    </button>
+    <button class="ham-btn" onclick="document.getElementById('mobNav').classList.add('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═════════════════ HERO ═════════════════ -->
+<section id="home" style="padding:0">
+  <div class="hero">
+    <div class="hero-grain"></div>
+    <span class="floater">🍕</span>
+    <span class="floater">🥗</span>
+    <span class="floater">🍝</span>
+    <span class="floater">🥩</span>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">📍 وهران، الجزائر — منذ 2008</div>
+      <h1 class="hero-title">
+        تجربة طعام<br><em>لا تُنسى</em>
+      </h1>
+      <p class="hero-sub">أشهى المأكولات الجزائرية والبحر المتوسطية<br>طازجة يومياً — توصيل سريع لباب منزلك</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+          🍽 اطلب الآن
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('tracking').scrollIntoView({behavior:'smooth'})">
+          📍 تتبع طلبك
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="h-stat"><strong>15+</strong><small>سنة خبرة</small></div>
+        <div class="h-stat"><strong>200+</strong><small>صنف في القائمة</small></div>
+        <div class="h-stat"><strong>4.9★</strong><small>تقييم العملاء</small></div>
+        <div class="h-stat"><strong>30 دقيقة</strong><small>متوسط التوصيل</small></div>
+      </div>
+    </div>
+    <div class="scroll-hint">▼ اكتشف</div>
+  </div>
+</section>
+
+<!-- ═════════════════ FEATURES STRIP ═════════════════ -->
+<div class="features-strip">
+  <div class="features-inner">
+    <div class="feat-item">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-text"><strong>توصيل سريع</strong><small>30 دقيقة في المتوسط</small></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon">🌿</div>
+      <div class="feat-text"><strong>مكونات طازجة</strong><small>محلية ومختارة يومياً</small></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon">📍</div>
+      <div class="feat-text"><strong>تتبع حي</strong><small>اعرف أين طلبك لحظياً</small></div>
+    </div>
+    <div class="feat-item">
+      <div class="feat-icon">💬</div>
+      <div class="feat-text"><strong>دعم 24/7</strong><small>نحن دائماً هنا لمساعدتك</small></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════ MENU ═════════════════ -->
+<section id="menu">
+  <div class="section-max">
+    <div class="menu-header">
+      <div>
+        <div class="section-label">قائمتنا</div>
+        <h2 class="section-title">اكتشف <em>نكهاتنا</em></h2>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end;">
+        <div class="cat-tabs" id="catTabs">
+          <div class="cat-tab active" data-cat="" onclick="filterCat(this)">🍽 الكل</div>
+          <div class="cat-tab" data-cat="مشاوي" onclick="filterCat(this)">🔥 مشاوي</div>
+          <div class="cat-tab" data-cat="معكرونة" onclick="filterCat(this)">🍝 معكرونة</div>
+          <div class="cat-tab" data-cat="سلطات" onclick="filterCat(this)">🥗 سلطات</div>
+          <div class="cat-tab" data-cat="بيتزا" onclick="filterCat(this)">🍕 بيتزا</div>
+          <div class="cat-tab" data-cat="حلويات" onclick="filterCat(this)">🍮 حلويات</div>
+          <div class="cat-tab" data-cat="مشروبات" onclick="filterCat(this)">🥤 مشروبات</div>
+        </div>
+        <div class="menu-search">
+          <input type="text" id="menuSearch" placeholder="ابحث عن وجبة..." oninput="renderMenu()"/>
+          <button>🔍</button>
+        </div>
+      </div>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ═════════════════ TRACKING ═════════════════ -->
+<section id="tracking">
+  <div class="track-inner">
+    <div class="section-label" style="justify-content:center;color:var(--amber-lt);">تتبع الطلب</div>
+    <h2 class="section-title" style="color:var(--white);margin-bottom:.7rem;">أين <em>طلبك</em> الآن؟</h2>
+    <p style="color:rgba(255,255,255,.45);margin-bottom:28px;font-size:.9rem;">أدخل رقم طلبك لمتابعة حالته لحظياً</p>
+    <div class="track-input-row">
+      <input class="track-input" id="trackInput" placeholder="LF-XXXXXX — رقم الطلب" oninput="this.value=this.value.toUpperCase()"/>
+      <button class="track-btn" onclick="trackOrder()">🔍 تتبع</button>
+    </div>
+    <div class="order-card" id="orderCard"></div>
+  </div>
+</section>
+
+<!-- ═════════════════ ABOUT ═════════════════ -->
+<section id="about">
+  <div class="section-max">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=80" alt="مطعم لافييستا"/>
+        <div class="about-img-badge">
+          <strong>2008</strong>
+          <span>تأسس المطعم</span>
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="section-label">قصتنا</div>
+        <h2 class="section-title">شغف <em>الطعام</em><br>منذ 15 عاماً</h2>
+        <p class="section-sub" style="margin-bottom:1rem;">
+          بدأنا رحلتنا في عام 2008 بحلم بسيط: تقديم أشهى المأكولات الجزائرية والمتوسطية بأعلى جودة وأطازج المكونات.
+        </p>
+        <p class="section-sub">
+          اليوم، نفخر بخدمة آلاف العائلات الجزائرية يومياً، مع الحفاظ على نفس الشغف والاهتمام بكل تفصيلة.
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">🌿 مكونات طبيعية 100%</span>
+          <span class="about-tag">👨‍🍳 طهاة محترفون</span>
+          <span class="about-tag">🏆 جائزة أفضل مطعم 2023</span>
+          <span class="about-tag">📦 تغليف بيئي</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════ FOOTER ═════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">
+        <div class="nav-logo-icon">🍽</div>
+        <div class="nav-logo-text" style="color:var(--white);">لا فيستا<span style="color:var(--amber-lt)">.</span></div>
+      </div>
+      <p class="footer-desc">أشهى المأكولات الجزائرية والمتوسطية — طازجة، سريعة، ولذيذة.</p>
+      <div class="footer-socials">
+        <div class="soc-btn" onclick="showToast('Facebook: @LaFiestaOran')">ⓕ</div>
+        <div class="soc-btn" onclick="showToast('Instagram: @lafiesta.oran')">📷</div>
+        <div class="soc-btn" onclick="showToast('WhatsApp: 0555 123 456')">💬</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <a onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">القائمة</a>
+      <a onclick="document.getElementById('tracking').scrollIntoView({behavior:'smooth'})">تتبع طلبك</a>
+      <a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">عن المطعم</a>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <a>📞 0555 123 456</a>
+      <a>📧 info@lafiesta.dz</a>
+      <a>📍 شارع الأمير عبد القادر، وهران</a>
+      <a>⏰ 11:00 — 23:30</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 La Fiesta — جميع الحقوق محفوظة</span>
+    <span>صُنع بـ ❤️ في وهران، الجزائر</span>
+  </div>
+</footer>
+
+<!-- ═════════════════════════════════════════
+   JAVASCRIPT
+═════════════════════════════════════════ -->
+<script>
+/* ─────────────────────────────────────────
+   MENU DATA
+───────────────────────────────────────── */
+const MENU = [
+  // مشاوي
+  {id:1,name:'تاجين اللحم بالخضر',cat:'مشاوي',price:1450,desc:'تاجين تقليدي بلحم الغنم الطري مع الخضروات الموسمية والتوابل الجزائرية الأصيلة.',img:'https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=400&q=80',badge:'pop',badgeText:'🔥 الأكثر طلباً'},
+  {id:2,name:'شيش طاووق مشوي',cat:'مشاوي',price:1200,desc:'قطع دجاج طرية متبلة بالثوم والليمون وزيت الزيتون، مشوية على الفحم.',img:'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80',badge:'hot',badgeText:'🌶 حار'},
+  {id:3,name:'كفتة مشوية',cat:'مشاوي',price:980,desc:'كفتة اللحم المفروم المتبلة بالأعشاب والبهارات، مشوية وتقدم مع الصلصة.',img:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80',badge:'',badgeText:''},
+  // معكرونة
+  {id:4,name:'باستا كاربونارا',cat:'معكرونة',price:1100,desc:'معكرونة إيطالية كريمية مع قطع لحم مقدد مقرمش وصوص البيض والجبن.',img:'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=400&q=80',badge:'new',badgeText:'✨ جديد'},
+  {id:5,name:'بوتيار بالمأكولات البحرية',cat:'معكرونة',price:1350,desc:'نودلز جزائرية طازجة مع جمبري وكاليمار وصوص طماطم بالثوم والأعشاب.',img:'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=400&q=80',badge:'pop',badgeText:'🔥 مطلوب'},
+  // سلطات
+  {id:6,name:'سلطة سيزر بالدجاج',cat:'سلطات',price:750,desc:'خس طازج مع شرائح دجاج مشوي وصلصة سيزر وقطع الخبز المحمص.',img:'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&q=80',badge:'',badgeText:''},
+  {id:7,name:'سلطة الشيراز',cat:'سلطات',price:680,desc:'طماطم، خيار، بصل أحمر وأعشاب طازجة بتتبيلة الليمون وزيت الزيتون.',img:'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80',badge:'',badgeText:''},
+  // بيتزا
+  {id:8,name:'بيتزا الدجاج والمشروم',cat:'بيتزا',price:1300,desc:'عجينة يدوية رقيقة مع صوص الطماطم والجبن الموزاريلا وشرائح الدجاج.',img:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80',badge:'pop',badgeText:'🔥 الأكثر طلباً'},
+  {id:9,name:'بيتزا 4 أجبان',cat:'بيتزا',price:1250,desc:'مزيج فاخر من أربعة أجبان إيطالية على عجينة هشة ذهبية.',img:'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=400&q=80',badge:'',badgeText:''},
+  // حلويات
+  {id:10,name:'كنافة بالجبن',cat:'حلويات',price:650,desc:'كنافة شرقية بجبن عكاوي طازج مع القطر والفستق الأخضر المطحون.',img:'https://images.unsplash.com/photo-1541188495357-ad2dc89487f4?w=400&q=80',badge:'hot',badgeText:'🍯 شهي'},
+  {id:11,name:'بسبوسة بالكريمة',cat:'حلويات',price:450,desc:'حلوى السميد الجزائرية الكلاسيكية مع كريمة مضافة وزهر الليمون.',img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=80',badge:'new',badgeText:'✨ جديد'},
+  // مشروبات
+  {id:12,name:'عصير ليمون نعناع',cat:'مشروبات',price:320,desc:'عصير ليمون طازج مع ورق النعناع الطازج والمثلجات.',img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&q=80',badge:'',badgeText:''},
+  {id:13,name:'قهوة عربية',cat:'مشروبات',price:250,desc:'قهوة عربية فاخرة مع الهيل، تقدم بطريقة تقليدية.',img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80',badge:'',badgeText:''},
+  {id:14,name:'سموزي المانغو',cat:'مشروبات',price:420,desc:'سموزي كثيف من المانغو الطازج مع الزبادي واللبن.',img:'https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&q=80',badge:'new',badgeText:'✨ جديد'},
+];
+
+/* ─────────────────────────────────────────
+   CART STATE
+───────────────────────────────────────── */
+let cart = [];
+let favs = new Set();
+let activeCat = '';
+let deliveryType = 'delivery';
+let activePayEl = null;
+let lastOrderId = '';
+
+/* ─────────────────────────────────────────
+   MENU RENDER
+───────────────────────────────────────── */
+function filterCat(el){
+  activeCat = el.dataset.cat;
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderMenu();
+}
+
+function renderMenu(){
+  const q = document.getElementById('menuSearch').value.toLowerCase();
+  const items = MENU.filter(m=>{
+    if(activeCat && m.cat !== activeCat) return false;
+    if(q && !m.name.toLowerCase().includes(q) && !m.desc.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const grid = document.getElementById('menuGrid');
+  if(!items.length){
+    grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--ink3)">
+      <div style="font-size:2.5rem;margin-bottom:10px">🍽</div>
+      <div style="font-size:1rem;font-weight:600">لا توجد نتائج</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = items.map((m,i)=>{
+    const inCart = cart.find(c=>c.id===m.id);
+    const isFav  = favs.has(m.id);
+    return `<div class="item-card" style="animation-delay:${i*.05}s">
+      <div class="item-img">
+        <img src="${m.img}" alt="${m.name}" loading="lazy"/>
+        ${m.badge?`<span class="item-badge badge-${m.badge}">${m.badgeText}</span>`:''}
+        <button class="item-fav${isFav?' faved':''}" id="fav${m.id}" onclick="toggleFav(${m.id})">${isFav?'♥':'♡'}</button>
+      </div>
+      <div class="item-body">
+        <div class="item-cat-tag">${m.cat}</div>
+        <div class="item-name">${m.name}</div>
+        <div class="item-desc">${m.desc}</div>
+        <div class="item-footer">
+          <div class="item-price">${m.price.toLocaleString('ar-DZ')}<small> دج</small></div>
+          <button class="add-btn${inCart?'.added':''}" id="addBtn${m.id}" onclick="addToCart(${m.id})"
+            title="أضف إلى السلة">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────
+   CART
+───────────────────────────────────────── */
+function addToCart(id){
+  const item = MENU.find(m=>m.id===id);
+  const existing = cart.find(c=>c.id===id);
+  if(existing){ existing.qty++; }
+  else { cart.push({...item, qty:1}); }
+  updateCartBadge();
+  updateCartDrawer();
+  showToast(`✅ أُضيف "${item.name}" إلى السلة`);
+  // Button animation
+  const btn = document.getElementById(`addBtn${id}`);
+  if(btn){ btn.classList.add('added'); setTimeout(()=>btn.classList.remove('added'),600); }
+}
+
+function updateCartBadge(){
+  const total = cart.reduce((s,c)=>s+c.qty,0);
+  ['cartBadge','cartBadgeMobile'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el){ el.textContent=total; el.classList.add('pop'); setTimeout(()=>el.classList.remove('pop'),300); }
+  });
+  document.getElementById('cartCountHead').textContent=total;
+}
+
+function updateCartDrawer(){
+  const itemsEl = document.getElementById('cartItems');
+  if(!cart.length){
+    itemsEl.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🍽️</div><p>سلتك فارغة<br>أضف وجبات من القائمة</p></div>`;
+    document.getElementById('checkoutBtn').disabled=true;
+    document.getElementById('cartSubtotal').textContent='0 دج';
+    document.getElementById('cartTotal').textContent='0 دج';
+    return;
+  }
+  itemsEl.innerHTML = cart.map(c=>`
+    <div class="cart-item">
+      <img class="cart-item-img" src="${c.img}" alt="${c.name}"/>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${c.name}</div>
+        <div class="cart-item-price">${(c.price*c.qty).toLocaleString('ar-DZ')} دج</div>
+      </div>
+      <div class="cart-qty">
+        <button class="qty-btn" onclick="changeQty(${c.id},-1)">−</button>
+        <span class="qty-val">${c.qty}</span>
+        <button class="qty-btn" onclick="changeQty(${c.id},+1)">+</button>
+      </div>
+    </div>`).join('');
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  document.getElementById('cartSubtotal').textContent = sub.toLocaleString('ar-DZ')+' دج';
+  document.getElementById('cartTotal').textContent = (sub+200).toLocaleString('ar-DZ')+' دج';
+  document.getElementById('checkoutBtn').disabled = false;
+}
+
+function changeQty(id,delta){
+  const idx = cart.findIndex(c=>c.id===id);
+  if(idx===-1) return;
+  cart[idx].qty += delta;
+  if(cart[idx].qty<=0) cart.splice(idx,1);
+  updateCartBadge();
+  updateCartDrawer();
+}
+
+function openCart(){ document.getElementById('cartOverlay').classList.add('open'); }
+function closeCart(){ document.getElementById('cartOverlay').classList.remove('open'); }
+
+/* ─────────────────────────────────────────
+   CHECKOUT
+───────────────────────────────────────── */
+function openCheckout(){
+  closeCart();
+  // Build mini summary
+  const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  document.getElementById('orderMini').innerHTML =
+    cart.map(c=>`<div class="order-mini-row"><span>${c.name} ×${c.qty}</span><span>${(c.price*c.qty).toLocaleString('ar-DZ')} دج</span></div>`).join('')+
+    `<div class="order-mini-row"><span>رسوم التوصيل</span><span>200 دج</span></div>`+
+    `<div class="order-mini-total"><span>الإجمالي</span><span>${(sub+200).toLocaleString('ar-DZ')} دج</span></div>`;
+  document.getElementById('checkoutForm').style.display='block';
+  document.getElementById('successScreen').classList.remove('show');
+  document.getElementById('checkoutModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCheckout(){
+  document.getElementById('checkoutModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function setDelivery(type){
+  deliveryType = type;
+  document.getElementById('delDelivery').classList.toggle('active',type==='delivery');
+  document.getElementById('delPickup').classList.toggle('active',type==='pickup');
+  document.getElementById('addressGroup').style.display = type==='delivery'?'block':'none';
+}
+
+function setPay(el){
+  document.querySelectorAll('.pay-opt').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activePayEl = el;
+}
+
+function placeOrder(){
+  const name  = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const addr  = document.getElementById('cAddress').value.trim();
+  if(!name || !phone){ showToast('⚠️ الرجاء تعبئة الاسم ورقم الهاتف','warning'); return; }
+  if(deliveryType==='delivery' && !addr){ showToast('⚠️ الرجاء إدخال العنوان','warning'); return; }
+  // Generate order ID
+  lastOrderId = 'LF-'+Math.random().toString(36).substring(2,8).toUpperCase();
+  // Save to localStorage for tracking
+  const order = {
+    id: lastOrderId,
+    items: cart.map(c=>({name:c.name,qty:c.qty,price:c.price,img:c.img})),
+    customer: name, phone, address:addr,
+    delivery: deliveryType,
+    total: cart.reduce((s,c)=>s+c.price*c.qty,0)+200,
+    status: 'preparing',
+    time: new Date().toISOString()
+  };
+  const orders = JSON.parse(localStorage.getItem('lf_orders')||'[]');
+  orders.push(order);
+  localStorage.setItem('lf_orders', JSON.stringify(orders));
+  // Clear cart
+  cart = [];
+  updateCartBadge();
+  updateCartDrawer();
+  renderMenu();
+  // Show success
+  document.getElementById('successOrderNum').textContent = lastOrderId;
+  document.getElementById('checkoutForm').style.display='none';
+  document.getElementById('successScreen').classList.add('show');
+  document.body.style.overflow='';
+}
+
+function goTrack(){
+  closeCheckout();
+  document.getElementById('tracking').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    document.getElementById('trackInput').value = lastOrderId;
+    trackOrder();
+  },600);
+}
+
+/* ─────────────────────────────────────────
+   ORDER TRACKING
+───────────────────────────────────────── */
+const STATUS_CONFIG = {
+  waiting:   {label:'في الانتظار',  steps:1, badge:'status-waiting'},
+  preparing: {label:'قيد التحضير', steps:2, badge:'status-preparing'},
+  delivery:  {label:'في الطريق',   steps:3, badge:'status-delivery'},
+  done:      {label:'تم التسليم',  steps:4, badge:'status-done'},
+  cancelled: {label:'ملغى',        steps:0, badge:'status-cancelled'},
+};
+const STEPS = [
+  {icon:'📥',label:'استُقبل الطلب'},
+  {icon:'👨‍🍳',label:'يُحضَّر الآن'},
+  {icon:'🛵',label:'في الطريق'},
+  {icon:'✅',label:'تم التسليم'},
+];
+
+function trackOrder(){
+  const id = document.getElementById('trackInput').value.trim().toUpperCase();
+  if(!id){ showToast('⚠️ أدخل رقم الطلب'); return; }
+  const orders = JSON.parse(localStorage.getItem('lf_orders')||'[]');
+  const order  = orders.find(o=>o.id===id);
+  const card   = document.getElementById('orderCard');
+  if(!order){
+    card.className='order-card show';
+    card.innerHTML=`<div style="text-align:center;padding:30px;color:rgba(255,255,255,.5)">
+      <div style="font-size:2.5rem;margin-bottom:12px">🔍</div>
+      <div style="font-size:.95rem;font-weight:600;color:rgba(255,255,255,.7)">لم يتم العثور على الطلب</div>
+      <div style="font-size:.8rem;margin-top:6px">تأكد من رقم الطلب وحاول مجدداً</div>
+    </div>`;
+    return;
+  }
+  const cfg  = STATUS_CONFIG[order.status] || STATUS_CONFIG.waiting;
+  const doneSteps = cfg.steps;
+  const stepsHTML = STEPS.map((s,i)=>`
+    <div class="step${i<doneSteps?' done':''}">
+      <div class="step-dot">${s.icon}</div>
+      <div class="step-label">${s.label}</div>
+    </div>`).join('');
+  const itemsHTML = order.items.map(it=>`
+    <div class="tracked-item">
+      <img src="${it.img}" alt="${it.name}"/>
+      ${it.name} ×${it.qty}
+      <span>${(it.price*it.qty).toLocaleString('ar-DZ')} دج</span>
+    </div>`).join('');
+
+  card.className='order-card show';
+  card.innerHTML=`
+    <div class="order-card-head">
+      <div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.35);letter-spacing:1px;margin-bottom:4px">رقم الطلب</div>
+        <div class="order-id">${order.id}</div>
+      </div>
+      <div>
+        <span class="order-status-badge ${cfg.badge}">${cfg.label}</span>
+      </div>
+    </div>
+    <div class="order-steps">${stepsHTML}</div>
+    <div style="display:flex;justify-content:space-between;font-size:.8rem;color:rgba(255,255,255,.45);margin-top:14px;">
+      <span>👤 ${order.customer}</span>
+      <span>💰 ${order.total.toLocaleString('ar-DZ')} دج</span>
+      <span>${order.delivery==='delivery'?'🛵 توصيل':'🏠 استلام'}</span>
+    </div>
+    <div class="tracked-items">${itemsHTML}</div>
+    <div style="margin-top:16px;display:flex;gap:8px;justify-content:flex-end;">
+      <button onclick="simulateStatusChange('${order.id}')" style="padding:7px 16px;border-radius:7px;background:var(--amber);color:var(--coal);border:none;font-family:'Tajawal',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;">⚡ محاكاة التحديث</button>
+    </div>`;
+}
+
+function simulateStatusChange(id){
+  const orders = JSON.parse(localStorage.getItem('lf_orders')||'[]');
+  const order  = orders.find(o=>o.id===id);
+  if(!order) return;
+  const cycle = ['waiting','preparing','delivery','done'];
+  const cur   = cycle.indexOf(order.status);
+  order.status = cycle[Math.min(cur+1, cycle.length-1)];
+  localStorage.setItem('lf_orders', JSON.stringify(orders));
+  showToast(`📦 تحديث: ${STATUS_CONFIG[order.status].label}`);
+  trackOrder();
+}
+
+/* ─────────────────────────────────────────
+   FAVORITES
+───────────────────────────────────────── */
+function toggleFav(id){
+  if(favs.has(id)){ favs.delete(id); showToast('تمت الإزالة من المفضلة'); }
+  else             { favs.add(id);   showToast('❤️ أُضيف إلى المفضلة'); }
+  const btn = document.getElementById(`fav${id}`);
+  if(btn){ btn.textContent = favs.has(id)?'♥':'♡'; btn.classList.toggle('faved', favs.has(id)); }
+}
+
+/* ─────────────────────────────────────────
+   NAV SCROLL
+───────────────────────────────────────── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',scrollY>50);
+});
+
+/* ─────────────────────────────────────────
+   MOBILE NAV
+───────────────────────────────────────── */
+function closeMobNav(){ document.getElementById('mobNav').classList.remove('open'); }
+
+/* ─────────────────────────────────────────
+   MODAL CLOSE ON BACKDROP
+───────────────────────────────────────── */
+document.getElementById('checkoutModal').addEventListener('click',function(e){
+  if(e.target===this) closeCheckout();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){ closeCheckout(); closeCart(); }});
+
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
+function showToast(msg, type='info'){
+  const c = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(10px)';},2200);
+  setTimeout(()=>t.remove(),2500);
+}
+
+/* ─────────────────────────────────────────
+   INIT
+───────────────────────────────────────── */
+renderMenu();
+// Initial payment selection
+document.querySelector('.pay-opt').classList.add('active');
+</script>
+</body>
+</html>
